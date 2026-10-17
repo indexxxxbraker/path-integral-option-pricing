@@ -1,0 +1,206 @@
+\chapter{Introduction}\label{cap:intro}
+
+\section{Motivation}
+\label{sec:motivacion}
+
+In the Black--Scholes model \cite{black-scholes, merton1973}, the price
+of a European option satisfies a backward parabolic equation with the
+payoff as its terminal condition. Written in the logarithm of the price,
+$x = \log S$, and in the time left to maturity, $\tau = T - t$, it is a
+Schrödinger equation in imaginary time, $\partial_\tau V = -\Hbs V$, for
+the Hamiltonian $\Hbs$ of a particle in one dimension
+(Chapter~\ref{cap:bs_operadores}\enprep). The price is then a matrix
+element of the Euclidean evolution operator $e^{-\tau\Hbs}$ integrated
+against the payoff, and the Feynman--Kac formula \cite{kac1949} writes
+it as a path integral \cite{feynman1948} over the trajectories of the
+log-price. The Wick rotation \cite{wick1954}, $t \to -i\tau$, which
+takes quantum mechanics to diffusion, does not have to be performed: the
+time to maturity is a Euclidean time from the outset
+(Chapter~\ref{cap:fundamentos}\enprep).
+
+\medskip
+
+For a European option, this language reproduces a known result. Its
+interest lies in options whose payoff depends on the whole path of the
+price (\emph{path-dependent} options). Their price is still the expected
+value of the discounted payoff, but computing it requires the law of a
+functional of the path, and each family of options calls for a
+technique of its own (Chapter~\ref{cap:problema_financiero}\enprep). In
+the Hamiltonian language, path dependence enters the same operator in
+two ways: as a potential or as a boundary condition. Ordered by the
+technique that solves them, the options this work will study follow the
+progression of a quantum mechanics course: free particle (European),
+linear source (geometric Asian), wall (single barrier), box (double
+barrier) and exponential wall (arithmetic Asian, Liouville potential).
+
+\medskip
+
+The problem is also of interest in its own right as physics. In
+Euclidean time, the path integral is backed by a rigorous measure, the
+Wiener measure, whereas in real time it does not define a measure; the
+Wick rotation is the analytic continuation that turns the unitary group
+$e^{-iHt}$ into the semigroup $e^{-\tau H}$
+(Chapter~\ref{cap:fundamentos}\enprep). The Black--Scholes Hamiltonian
+is not Hermitian, and a gauge transformation, which turns out to be
+Girsanov's theorem written in operator form, conjugates it to a free
+particle plus a constant (Chapter~\ref{cap:bs_operadores}\enprep). The
+arithmetic Asian option leads to Liouville quantum mechanics, with a
+continuous spectrum and Macdonald functions of imaginary order as
+eigenfunctions (Chapter~\ref{cap:espectro}\enprep). And since in
+Euclidean time the weight of each path is positive, the discretized path
+integral can be simulated by Monte Carlo without the sign problem of
+real time (Chapter~\ref{cap:numerica}\enprep).
+
+\section{State of the art}
+\label{sec:estado_arte}
+
+\noindent\textbf{Physics and derivative pricing.}
+The application of methods from physics to markets has two strands.
+Statistical physics has mainly studied the empirical statistics of
+prices, with fat tails and correlations that the Black--Scholes model
+does not capture, and their consequences for risk and hedging
+\cite{bouchaud-potters}. The other strand keeps the model and changes
+the language. Linetsky \cite{linetsky1998} presented pricing as a path
+integral to a financial audience; Baaquie \cite{baaquie2004} developed
+it systematically with the Hamiltonians of quantum mechanics, and
+extended it to field theory for interest rates \cite{baaquie2018};
+Kleinert \cite{kleinert} devotes part of his treatise on path integrals
+to financial markets. This work belongs to the second strand.
+
+\medskip
+
+\noindent\textbf{Results by family.}
+All the prices that will be studied are known. The formula for the
+geometric Asian option is due to Kemna and Vorst \cite{kemna-vorst};
+that for the single barrier, to Merton \cite{merton1973}, and those for
+its eight variants, to Reiner and Rubinstein \cite{reiner-rubinstein};
+the image series for the double barrier, to Kunitomo and Ikeda
+\cite{kunitomo-ikeda}. The arithmetic Asian option is the hard case:
+Yor \cite{yor1992} obtained the law of the integral of the exponential
+of Brownian motion; Geman and Yor \cite{geman-yor}, the Laplace
+transform of the price by means of Bessel processes, and Linetsky
+\cite{linetsky2004}, its spectral expansion, which is the formulation
+closest to that of this work. On the numerical side, Glasserman
+\cite{glasserman} is the reference on Monte Carlo in finance, and
+Broadie, Glasserman and Kou \cite{broadie-glasserman-kou} quantified the
+effect of monitoring the barrier only at discrete dates.
+
+\medskip
+
+\noindent\textbf{Mathematical background.}
+Stochastic calculus is covered in Karatzas and Shreve
+\cite{karatzas-shreve} and in Øksendal \cite{oksendal}, and its
+application to pricing in Shreve \cite{shreve}, Hull \cite{hull} and the
+author's bachelor's thesis in Mathematics \cite{tfgm}; the path integral,
+in Feynman and Hibbs \cite{feynman-hibbs}; spectral theory, in Reed and
+Simon \cite{reed-simon1, reed-simon2} and Simon \cite{simon-functional},
+and special functions, in Lebedev \cite{lebedev}.
+
+\medskip
+
+The contribution sought is therefore not in the results but in their
+organization: to obtain all of them as propagators or spectra of a
+single Hamiltonian, ordered by the physical technique that solves them,
+and to check them numerically.
+
+\section{Objectives}
+\label{sec:objetivos}
+
+The work has four objectives:
+\begin{enumerate}[leftmargin=*, label=\arabic*., itemsep=1pt, topsep=3pt]
+ \item \textbf{To develop the formalism rigorously:} diffusion, Wiener
+ measure, Feynman path integral, Wick rotation, Feynman--Kac formula and
+ Hamiltonian formalism, pointing out in each case what is rigorous and
+ what is formal.
+ \item \textbf{To validate the framework} by recovering the
+ Black--Scholes formula as the propagator of a free particle.
+ \item \textbf{To apply it to path-dependent options, ordered by
+ technique:} linear source (geometric Asian), absorbing wall (single
+ barrier), box (double barrier) and Liouville potential (arithmetic
+ Asian).
+ \item \textbf{To check the results numerically,} with Monte Carlo
+ simulation of the discretized path integral and with the evaluation of
+ the spectral representations.
+\end{enumerate}
+
+\noindent\textbf{Scope.}
+The work is restricted to the standard Black--Scholes model: constant
+volatility and interest rate, no jumps and continuous monitoring.
+Lookback options will not be developed because they do not bring a new
+technique: they are barriers whose level is integrated over
+(Chapter~\ref{cap:fuente_pared}\enprep). Stochastic volatility, jumps,
+American options and interest-rate models are left out, as possible
+lines of further work (Chapter~\ref{cap:conclusiones}\enprep).
+
+\section{Structure of the thesis}
+\label{sec:estructura_memoria}
+
+Chapter~\ref{cap:problema_financiero} will set out the financial
+problem in the language of physics: contracts, no arbitrage, the
+risk-neutral probability, the Black--Scholes model and equation, and why
+path-dependent options need a different method.
+Chapter~\ref{cap:fundamentos} will build the apparatus (objective~1),
+and Chapter~\ref{cap:bs_operadores} will apply it to the European
+option, which after the gauge transformation is a free particle
+(objective~2). Chapters~\ref{cap:fuente_pared} and~\ref{cap:espectro}
+will address objective~3 in order of technical difficulty: in the first,
+completing the square and the method of images will suffice; in the
+second, the Hamiltonian will have to be diagonalized, with a discrete spectrum
+in the box and a continuous one in the Liouville potential.
+Chapter~\ref{cap:numerica} (objective~4) will simulate the discretized
+path integral by Monte Carlo and compare it with the exact formulas. It
+will study the wall on the lattice, where monitoring the barrier only at
+the nodes introduces an error that decreases as $\sqrt{\Delta t}$ and
+admits two different corrections: the crossing probability of the
+Brownian bridge between two nodes, which makes the simulation price the
+continuous barrier, and the barrier shift of Broadie, Glasserman and
+Kou, which adapts the continuous formula to discrete monitoring. It will
+also compare the spectral and image series for the double barrier as a
+function of maturity, and price the arithmetic Asian option with the
+geometric one as a control variate. Chapter~\ref{cap:conclusiones} will
+gather the conclusions. Chapters~\ref{cap:problema_financiero}
+to~\ref{cap:bs_operadores} are prerequisites for the rest.
+
+\section{Notation and conventions}
+\label{sec:notacion_convenios}
+
+The following table lists the main symbols.
+\begin{center}
+\footnotesize
+\renewcommand{\arraystretch}{1.15}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}ll|ll@{}}
+\toprule
+$\PP,\ (\F_t)$ & Real-world probability, filtration &
+$\ket{\psi},\ \braket{\phi}{\psi}$ & Ket, inner product \\
+$\Q,\ \E = \E_\Q$ & Risk-neutral measure &
+$\ket{x},\ \ket{p}$ & Position and momentum states \\
+$W_t,\ \widetilde W_t$ & Brownian motions under $\PP$ and $\Q$ &
+$H,\ \Hbs,\ \Heff$ & Hamiltonians \\
+$S_t,\ X_t = \log S_t$ & Price and log-price &
+$\matel{x}{e^{-\tau H}}{x'}$ & Euclidean kernel \\
+$r,\ \sigma,\ K,\ T$ & Rate, volatility, strike, maturity &
+$\Dpath x,\ \Lag$ & Formal measure, Lagrangian \\
+$\tau = T - t$ & Time to maturity &
+$N(\cdot)$ & Standard normal distribution function \\
+$G_T,\ A_T$ & Geometric and arithmetic averages &
+$A_h^{(\nu)},\ \nu = \frac{2b}{\sigma^2}$ & Yor functional and index \\
+$m_\tau$ & Minimum of the log-price &
+$B,\ \ell = \log B$ & Barrier ($\ell_d,\ \ell_u$) \\
+$\mu,\ b = r - \frac{\sigma^2}{2}$ & Real-world drift of $S$; of $X$ under $\Q$ &
+$\theta;\ \beta = \frac{1}{2} - \frac{r}{\sigma^2}$
+ & Gauge parameter; its BS value \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent Units with $\hbar = 1$ are used, so that the Euclidean
+evolution operator is $e^{-\tau H}$. Every expectation without a
+subscript is taken under $\Q$. The general gauge parameter $\theta$
+takes the value
+$\beta = \frac{1}{2} - \frac{r}{\sigma^2} = -\frac{b}{\sigma^2}$ in the
+Black--Scholes model. Baaquie's convention \cite{baaquie2004} is
+followed, $\braket{x}{p} = e^{ipx}$, with the completeness relations
+$\int dx\,\ket{x}\bra{x} = \1 = \int \frac{dp}{2\pi}\,\ket{p}\bra{p}$.
+The remaining dimensionless constants and time rescalings will be
+introduced where they appear.
