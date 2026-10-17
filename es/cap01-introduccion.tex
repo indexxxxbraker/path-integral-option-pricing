@@ -1,0 +1,209 @@
+\chapter{Introducción}\label{cap:intro}
+
+\section{Motivación}
+\label{sec:motivacion}
+
+En el modelo de Black--Scholes \cite{black-scholes, merton1973}, el
+precio de una opción europea satisface una ecuación parabólica
+retrógrada con el pago como condición final. Escrita en el logaritmo
+del precio, $x = \log S$, y en el tiempo que falta hasta el vencimiento,
+$\tau = T - t$, es una ecuación de Schrödinger en tiempo imaginario,
+$\partial_\tau V = -\Hbs V$, para el hamiltoniano $\Hbs$ de una
+partícula en una dimensión (Cap.~\ref{cap:bs_operadores}\enprep). El
+precio es entonces un elemento de matriz del operador de evolución
+euclídea $e^{-\tau\Hbs}$ integrado contra el pago, y la fórmula de
+Feynman--Kac \cite{kac1949} lo escribe como una integral de camino
+\cite{feynman1948} sobre las trayectorias del log-precio. La rotación de
+Wick \cite{wick1954}, $t \to -i\tau$, que lleva de la mecánica cuántica
+a la difusión, no hay que hacerla: el tiempo hasta el vencimiento es, de
+origen, un tiempo euclídeo (Cap.~\ref{cap:fundamentos}\enprep).
+
+\medskip
+
+Para una opción europea, este lenguaje reproduce un resultado conocido.
+Su interés está en las opciones cuyo pago depende de toda la trayectoria
+del precio (\emph{path-dependent}). Su precio sigue siendo el valor
+esperado del pago descontado, pero calcularlo exige la ley de una
+funcional de la trayectoria, y cada familia de opciones pide una técnica
+propia (Cap.~\ref{cap:problema_financiero}\enprep). En el lenguaje
+hamiltoniano, la dependencia de la trayectoria entra en el mismo
+operador de dos maneras: como un potencial o como una condición de
+contorno. Ordenadas por la técnica que las resuelve, las opciones que
+estudiará el trabajo recorren la progresión de un curso de mecánica
+cuántica: partícula libre (europea), fuente lineal (asiática
+geométrica), pared (barrera única), caja (doble barrera) y pared
+exponencial (asiática aritmética, potencial de Liouville).
+
+\medskip
+
+El problema tiene además interés físico propio. En tiempo euclídeo, la
+integral de camino está respaldada por una medida rigurosa, la de
+Wiener, mientras que en tiempo real no define una medida; la rotación de
+Wick es la continuación analítica que convierte el grupo unitario
+$e^{-iHt}$ en el semigrupo $e^{-\tau H}$
+(Cap.~\ref{cap:fundamentos}\enprep). El hamiltoniano de Black--Scholes
+no es hermítico, y una transformación gauge, que resulta ser el teorema
+de Girsanov escrito en operadores, lo conjuga con una partícula libre
+más una constante (Cap.~\ref{cap:bs_operadores}\enprep). La asiática
+aritmética conduce a la mecánica cuántica de Liouville, con espectro
+continuo y funciones de Macdonald de índice imaginario como
+autofunciones (Cap.~\ref{cap:espectro}\enprep). Y como en tiempo
+euclídeo el peso de cada trayectoria es positivo, la integral de camino
+discretizada se puede simular por Monte Carlo sin el problema del signo
+del tiempo real (Cap.~\ref{cap:numerica}\enprep).
+
+\section{Estado del arte}
+\label{sec:estado_arte}
+
+\noindent\textbf{Física y valoración de derivados.}
+La aplicación de métodos de la física a los mercados tiene dos
+vertientes. La física estadística ha estudiado sobre todo la estadística
+empírica de los precios, con colas gruesas y correlaciones que el modelo
+de Black--Scholes no recoge, y sus consecuencias para el riesgo y la
+cobertura \cite{bouchaud-potters}. La otra conserva el modelo y cambia
+el lenguaje. Linetsky \cite{linetsky1998} presentó a una audiencia
+financiera la valoración como integral de camino; Baaquie
+\cite{baaquie2004} la desarrolló de forma sistemática con los
+hamiltonianos de la mecánica cuántica, y la extendió a la teoría de
+campos para los tipos de interés \cite{baaquie2018}; Kleinert
+\cite{kleinert} dedica a los mercados financieros una parte de su
+tratado de integrales de camino. Este trabajo pertenece a la segunda
+vertiente.
+
+\medskip
+
+\noindent\textbf{Resultados por familia.}
+Todos los precios que se estudiarán son conocidos. La fórmula de la
+asiática geométrica es de Kemna y Vorst \cite{kemna-vorst}; la de la
+barrera única, de Merton \cite{merton1973}, y las de sus ocho variantes,
+de Reiner y Rubinstein \cite{reiner-rubinstein}; la serie de imágenes de
+la doble barrera, de Kunitomo e Ikeda \cite{kunitomo-ikeda}. La asiática
+aritmética es el caso difícil: Yor \cite{yor1992} obtuvo la ley de la
+integral de la exponencial del browniano; Geman y Yor \cite{geman-yor},
+la transformada de Laplace del precio mediante procesos de Bessel, y
+Linetsky \cite{linetsky2004}, su expansión espectral, que es la
+formulación más próxima a la de este trabajo. En la parte numérica,
+Glasserman \cite{glasserman} es la referencia de Monte Carlo en
+finanzas, y Broadie, Glasserman y Kou \cite{broadie-glasserman-kou}
+cuantificaron el efecto de vigilar la barrera solo en fechas discretas.
+
+\medskip
+
+\noindent\textbf{Base matemática.}
+El cálculo estocástico está en Karatzas y Shreve \cite{karatzas-shreve}
+y en Øksendal \cite{oksendal}, y su aplicación a la valoración, en
+Shreve \cite{shreve}, Hull \cite{hull} y el TFG de Matemáticas
+\cite{tfgm}; la integral de camino, en Feynman y Hibbs
+\cite{feynman-hibbs}; la teoría espectral, en Reed y Simon
+\cite{reed-simon1, reed-simon2} y Simon \cite{simon-functional}, y las
+funciones especiales, en Lebedev \cite{lebedev}.
+
+\medskip
+
+La aportación que se busca no está, por tanto, en los resultados, sino
+en su organización: obtenerlos todos como propagadores o espectros de un
+mismo hamiltoniano, ordenados por la técnica física que los resuelve, y
+contrastarlos numéricamente.
+
+\section{Objetivos}
+\label{sec:objetivos}
+
+El trabajo tiene cuatro objetivos:
+\begin{enumerate}[leftmargin=*, label=\arabic*., itemsep=1pt, topsep=3pt]
+ \item \textbf{Desarrollar el formalismo con rigor:} difusión, medida de
+ Wiener, integral de camino de Feynman, rotación de Wick, fórmula de
+ Feynman--Kac y formalismo hamiltoniano, señalando en cada caso qué es
+ riguroso y qué es formal.
+ \item \textbf{Validar el marco} recuperando la fórmula de
+ Black--Scholes como el propagador de una partícula libre.
+ \item \textbf{Aplicarlo a opciones \emph{path-dependent}, ordenadas por
+ técnica:} fuente lineal (asiática geométrica), pared absorbente
+ (barrera única), caja (doble barrera) y potencial de Liouville
+ (asiática aritmética).
+ \item \textbf{Contrastar los resultados numéricamente,} con Monte Carlo
+ de la integral de camino discretizada y con la evaluación de las
+ representaciones espectrales.
+\end{enumerate}
+
+\noindent\textbf{Alcance.}
+El trabajo se ciñe al modelo de Black--Scholes estándar: volatilidad y
+tipo de interés constantes, sin saltos y con monitorización continua.
+Las opciones \emph{lookback} no se desarrollarán porque no aportan una
+técnica nueva: son barreras cuyo nivel se integra
+(Cap.~\ref{cap:fuente_pared}\enprep). Quedan fuera la volatilidad
+estocástica, los saltos, las opciones americanas y los modelos de tipos
+de interés, posibles líneas de continuación
+(Cap.~\ref{cap:conclusiones}\enprep).
+
+\section{Estructura de la memoria}
+\label{sec:estructura_memoria}
+
+El Cap.~\ref{cap:problema_financiero} planteará el problema financiero
+en lenguaje físico: los contratos, el no arbitraje, la probabilidad
+neutral al riesgo, el modelo y la ecuación de Black--Scholes, y por qué
+las opciones \emph{path-dependent} necesitan otro método. El
+Cap.~\ref{cap:fundamentos} construirá el aparato (objetivo~1), y el
+Cap.~\ref{cap:bs_operadores} lo aplicará a la opción europea, que tras
+la transformación gauge es una partícula libre (objetivo~2). Los
+Caps.~\ref{cap:fuente_pared} y~\ref{cap:espectro} abordarán el
+objetivo~3 en orden de dificultad técnica: en el primero bastarán
+completar el cuadrado y el método de imágenes; en el segundo habrá que
+diagonalizar el hamiltoniano, de espectro discreto en la caja y continuo
+en el potencial de Liouville. El Cap.~\ref{cap:numerica} (objetivo~4)
+simulará por Monte Carlo la integral de camino discretizada y la
+contrastará con las fórmulas exactas. Estudiará la pared en el retículo,
+donde vigilar la barrera solo en los nodos introduce un error que
+decrece como $\sqrt{\Delta t}$ y que admite dos correcciones distintas:
+la probabilidad de cruce del puente browniano entre dos nodos, que hace
+que la simulación valore la barrera continua, y el desplazamiento de la
+barrera de Broadie, Glasserman y Kou, que adapta la fórmula continua a
+una vigilancia discreta. Comparará además la serie espectral y la de
+imágenes de la doble barrera según el vencimiento, y valorará la
+asiática aritmética con la geométrica como variable de control. El
+Cap.~\ref{cap:conclusiones} recogerá las conclusiones. Los
+Caps.~\ref{cap:problema_financiero}--\ref{cap:bs_operadores} son
+prerrequisito de los demás.
+
+\section{Notación y convenios}
+\label{sec:notacion_convenios}
+
+La tabla siguiente recoge los símbolos principales.
+\begin{center}
+\footnotesize
+\renewcommand{\arraystretch}{1.15}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}ll|ll@{}}
+\toprule
+$\PP,\ (\F_t)$ & Probabilidad real, filtración &
+$\ket{\psi},\ \braket{\phi}{\psi}$ & Ket, producto escalar \\
+$\Q,\ \E = \E_\Q$ & Medida neutral al riesgo &
+$\ket{x},\ \ket{p}$ & Estados de posición y momento \\
+$W_t,\ \widetilde W_t$ & Brownianos bajo $\PP$ y $\Q$ &
+$H,\ \Hbs,\ \Heff$ & Hamiltonianos \\
+$S_t,\ X_t = \log S_t$ & Precio y log-precio &
+$\matel{x}{e^{-\tau H}}{x'}$ & Núcleo euclídeo \\
+$r,\ \sigma,\ K,\ T$ & Tipo, volatilidad, \emph{strike}, vencimiento &
+$\Dpath x,\ \Lag$ & Medida formal, lagrangiana \\
+$\tau = T - t$ & Tiempo hasta el vencimiento &
+$N(\cdot)$ & Normal estándar acumulada \\
+$G_T,\ A_T$ & Promedios geométrico y aritmético &
+$A_h^{(\nu)},\ \nu = \frac{2b}{\sigma^2}$ & Funcional de Yor e índice \\
+$m_\tau$ & Mínimo del log-precio &
+$B,\ \ell = \log B$ & Barrera ($\ell_d,\ \ell_u$) \\
+$\mu,\ b = r - \frac{\sigma^2}{2}$ & Deriva real de $S$; de $X$ bajo $\Q$ &
+$\theta;\ \beta = \frac{1}{2} - \frac{r}{\sigma^2}$
+ & Parámetro gauge; su valor en BS \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent Se usan unidades con $\hbar = 1$, de modo que el operador de
+evolución euclídea es $e^{-\tau H}$. Toda esperanza sin subíndice es
+bajo $\Q$. El parámetro gauge general $\theta$ toma en el modelo de
+Black--Scholes el valor
+$\beta = \frac{1}{2} - \frac{r}{\sigma^2} = -\frac{b}{\sigma^2}$. Se
+sigue el convenio de Baaquie \cite{baaquie2004},
+$\braket{x}{p} = e^{ipx}$, con las relaciones de completitud
+$\int dx\,\ket{x}\bra{x} = \1 = \int \frac{dp}{2\pi}\,\ket{p}\bra{p}$.
+Las demás constantes adimensionales y los reescalados temporales se
+introducirán donde aparezcan.
