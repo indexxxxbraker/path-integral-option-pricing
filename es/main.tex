@@ -1,0 +1,55 @@
+% Borrador público del TFG de Física (versión en español).
+% Compilar: latexmk -pdf main.tex
+\documentclass[11pt,a4paper,oneside]{report}
+\input{preambulo}
+
+\newcommand{\versionborrador}{v0.1}
+\newcommand{\fechaborrador}{17 de octubre de 2026}
+
+\begin{document}
+
+\pagenumbering{alph}
+\begin{titlepage}
+\centering
+\vspace*{2cm}
+{\LARGE\bfseries Mecánica cuántica euclídea aplicada\\[0.3cm]
+a la valoración de opciones path-dependent\par}
+\vspace{1.5cm}
+{\Large Roberto Cepeda Rocandio\par}
+\vspace{2.5cm}
+{\large Trabajo Fin de Grado en Física\par}
+\vspace{0.4cm}
+{\sc Universidad de Oviedo}\\[0.2cm]
+Facultad de Ciencias
+\vfill
+{\large\bfseries Borrador en curso\par}
+\vspace{0.3cm}
+Versión \versionborrador{} \textperiodcentered{} \fechaborrador\par
+\vspace{0.6cm}
+\begin{minipage}{0.8\textwidth}\centering\small
+Los capítulos se publican como borradores a medida que se revisan.
+Los que figuran como «en preparación» aún no se han publicado.
+\end{minipage}
+\end{titlepage}
+
+\clearpage
+\pagenumbering{roman}
+\tableofcontents
+
+\clearpage
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+\input{cap01-introduccion}
+\input{cap02-problema-financiero}
+\input{cap03-difusion-integral-camino}
+\input{cap04-black-scholes}
+\input{cap05-fuente-lineal-pared}
+\input{cap06-espectro}
+\input{cap07-comprobacion-numerica}
+\input{cap08-conclusiones}
+
+\clearpage
+\input{bibliografia}
+
+\end{document}

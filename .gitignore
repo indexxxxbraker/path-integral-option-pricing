@@ -1,0 +1,20 @@
+# LaTeX build files (the PDFs are attached to releases)
+es/main.pdf
+en/main.pdf
+dist/
+*.aux
+*.log
+*.out
+*.toc
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.bbl
+*.blg
+build.log
+
+# Python
+__pycache__/
+*.egg-info/
+.pytest_cache/
+.venv/

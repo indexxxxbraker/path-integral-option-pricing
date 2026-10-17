@@ -1,0 +1,56 @@
+% Public draft of the Physics bachelor's thesis (English translation).
+% Build: latexmk -pdf main.tex
+\documentclass[11pt,a4paper,oneside]{report}
+\input{preamble}
+
+\newcommand{\draftversion}{v0.1}
+\newcommand{\draftdate}{17 October 2026}
+
+\begin{document}
+
+\pagenumbering{alph}
+\begin{titlepage}
+\centering
+\vspace*{2cm}
+{\LARGE\bfseries Euclidean quantum mechanics applied\\[0.3cm]
+to the pricing of path-dependent options\par}
+\vspace{1.5cm}
+{\Large Roberto Cepeda Rocandio\par}
+\vspace{2.5cm}
+{\large Bachelor's thesis in Physics (TFG)\par}
+\vspace{0.4cm}
+{\sc University of Oviedo}\\[0.2cm]
+Faculty of Science
+\vfill
+{\large\bfseries Draft in progress\par}
+\vspace{0.3cm}
+Version \draftversion{} \textperiodcentered{} \draftdate\par
+\vspace{0.6cm}
+\begin{minipage}{0.8\textwidth}\centering\small
+English translation of the Spanish original. Chapters are released as
+drafts as they are revised; those marked ``in preparation'' have not
+been released yet.
+\end{minipage}
+\end{titlepage}
+
+\clearpage
+\pagenumbering{roman}
+\tableofcontents
+
+\clearpage
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+\input{ch01-introduction}
+\input{ch02-financial-problem}
+\input{ch03-diffusion-path-integral}
+\input{ch04-black-scholes}
+\input{ch05-linear-source-wall}
+\input{ch06-spectrum}
+\input{ch07-numerical-checks}
+\input{ch08-conclusions}
+
+\clearpage
+\input{bibliography}
+
+\end{document}

@@ -1,0 +1,79 @@
+% Preámbulo de la versión en español.
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-noshorthands,es-tabla]{babel}
+
+\usepackage[a4paper,top=2.5cm,bottom=2.5cm,left=2.5cm,right=2.5cm]{geometry}
+\usepackage{setspace}
+\onehalfspacing
+
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{bm}
+
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage[nottoc]{tocbibind}
+\usepackage[colorlinks=true,linkcolor=black,citecolor=blue,urlcolor=blue]{hyperref}
+\hypersetup{
+  pdftitle={Mecánica cuántica euclídea aplicada a la valoración de opciones path-dependent (borrador)},
+  pdfauthor={Roberto Cepeda Rocandio}
+}
+
+\theoremstyle{plain}
+\newtheorem{teorema}{Teorema}[chapter]
+\newtheorem{proposicion}[teorema]{Proposición}
+\newtheorem{lema}[teorema]{Lema}
+\newtheorem{corolario}[teorema]{Corolario}
+
+\theoremstyle{definition}
+\newtheorem{definicion}[teorema]{Definición}
+\newtheorem{ejemplo}[teorema]{Ejemplo}
+
+\theoremstyle{remark}
+\newtheorem{observacion}[teorema]{Observación}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\G}{\mathcal{G}}
+\newcommand{\Hh}{\mathcal{H}}
+\newcommand{\HH}{\mathcal{H}}
+\newcommand{\1}{\mathbf{1}}
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\eqdef}{\coloneqq}
+\DeclareMathOperator{\Var}{Var}
+
+\newcommand{\bra}[1]{\langle #1 |}
+\newcommand{\ket}[1]{| #1 \rangle}
+\newcommand{\braket}[2]{\langle #1 \mid #2 \rangle}
+\newcommand{\matel}[3]{\langle #1 \mid #2 \mid #3 \rangle}
+\newcommand{\Hbs}{H_{\text{BS}}}
+\newcommand{\Heff}{H_{\text{eff}}}
+\newcommand{\Lag}{\mathcal{L}}
+\newcommand{\Dpath}{\mathcal{D}}
+
+% Borrador en curso: remisiones y capítulos aún no publicados.
+\newcommand{\enprep}{, en preparación}
+\newif\ifprimerprevisto \primerprevistotrue
+\newcommand{\capituloprevisto}[2]{%
+  \ifprimerprevisto\clearpage\global\primerprevistofalse\else\par\vspace{2.5em}\fi
+  \begingroup\let\clearpage\relax\let\cleardoublepage\relax
+  \chapter{#1}\label{#2}\endgroup
+  \noindent\textit{Capítulo en preparación.}\par}
+\newcommand{\seccionesprevistas}[1]{%
+  \par\medskip\noindent\textit{Secciones #1: en preparación.}\par}
+
+\usepackage{titlesec}
+\titleformat{\chapter}[hang]{\normalfont\huge\bfseries}{\thechapter.}{0.6em}{}
+\titlespacing*{\chapter}{0pt}{-20pt}{18pt}
