@@ -1,1 +1,211 @@
-\capituloprevisto{El problema financiero}{cap:problema_financiero}
+\chapter{El problema financiero}\label{cap:problema_financiero}
+
+Este capítulo plantea en lenguaje físico, y sin dar por sabido el
+cálculo estocástico, el problema que resuelve el trabajo: qué contratos
+se valoran, por qué su precio está determinado y por qué las opciones
+que dependen de la trayectoria piden otro método. Las demostraciones se
+citan \cite{tfgm, shreve, hull}.
+
+\section{Contratos y pagos}\label{sec:contratos}
+
+\subsection{Opciones europeas}\label{subsec:europeas}
+
+Consideramos un mercado con dos activos. El primero es un activo con
+riesgo ---una acción, por ejemplo---, cuyo precio $S_t$ fluctúa de forma
+aleatoria; en los capítulos siguientes hará el papel de la coordenada
+de una partícula. El segundo es una cuenta bancaria sin riesgo, cuyo
+saldo crece de forma determinista, $B_t = B_0\, e^{rt}$, con tipo de
+interés $r$ constante. Un euro cobrado en $T$ equivale, por tanto, a
+$e^{-r\tau}$ euros en el instante $t$, con $\tau = T - t$: el factor de
+descuento convierte cantidades de una fecha a otra, como un cambio de
+unidades, y solo tiene sentido comparar precios referidos a la misma
+fecha.
+
+Un \emph{derivado} es un contrato cuyo pago depende del precio de otro
+activo, llamado \emph{subyacente}. El más simple es la \emph{opción de
+compra europea} (\emph{call}) con precio de ejercicio (\emph{strike})
+$K$ y vencimiento $T$: da a su titular el derecho, pero no la
+obligación, de comprar una unidad del subyacente en el instante $T$ al
+precio $K$. Si $S_T > K$, el titular ejerce y gana $S_T - K$; si
+$S_T \leq K$, no ejerce y no gana nada. El \emph{pago} (\emph{payoff})
+en $T$ es
+\begin{equation}\label{eq:pago_call}
+  g(S_T) \;=\; (S_T - K)^+ \;\eqdef\; \max(S_T - K,\, 0).
+\end{equation}
+La opción de venta europea (\emph{put}) paga $(K - S_T)^+$, y en general
+llamamos europea a cualquier opción que paga una función $g(S_T)$ del
+precio en el vencimiento. Su rasgo estructural es que el pago depende
+solo del estado final: en lenguaje físico, $g$ es un observable que se
+mide en $t = T$ sobre la posición $S_T$, y la historia que llevó hasta
+allí es irrelevante. Para valorarla basta conocer la ley de una sola
+variable aleatoria, $S_T$.
+
+El problema es determinar cuánto vale hoy, en $t < T$, el derecho a
+cobrar $g(S_T)$ en $T$. Conviene adelantar por qué hace falta un modelo
+del subyacente. Si el pago fuera lineal, $S_T - K$ (un contrato a plazo
+o \emph{forward}), su precio quedaría fijado sin hipótesis alguna sobre
+la dinámica de $S$: comprar hoy una unidad del subyacente y pedir
+prestados $K e^{-r\tau}$ reproduce ese pago en cualquier escenario, así
+que el contrato vale $S_t - K e^{-r\tau}$. La \emph{call}, en cambio,
+tiene un codo en $S_T = K$: es convexa, y su valor depende de toda la
+distribución de $S_T$ y no solo de su media. Por eso entra la
+volatilidad del subyacente y por eso hace falta un modelo.
+
+Las opciones que estudia este trabajo pagan, en cambio, una
+\emph{funcional de la trayectoria}: el pago en $T$ es
+$\Phi[S(\cdot)]$, con $S(\cdot) = \{S_t\}_{0 \leq t \leq T}$, y la
+europea es el caso particular $\Phi[S(\cdot)] = g(S_T)$. Las dos
+familias del trabajo son las asiáticas, que dependen de una integral a
+lo largo de la trayectoria, y las barrera, que dependen de sus valores
+extremos.
+
+\subsection{Opciones asiáticas}
+\label{subsec:asian_concepto}\label{sec:asian_definicion}
+\label{subsec:asian_promedios}
+
+Una opción asiática es un derivado cuyo pago depende del valor
+\emph{promedio} del subyacente sobre un periodo de monitorización, en
+lugar de su valor terminal: el promedio es más difícil de manipular que
+una observación aislada y, como tiene menos varianza, la opción es más
+barata que la europea equivalente. Sobre el periodo $[0, T]$, los dos promedios canónicos
+son el aritmético y el geométrico:
+\begin{align}
+  A_T &\;\eqdef\; \frac{1}{T}\int_0^T S_t\, dt,
+  \label{eq:promedio_aritmetico}\\
+  G_T &\;\eqdef\; \exp\!\left(\frac{1}{T}\int_0^T \log S_t\, dt\right).
+  \label{eq:promedio_geometrico}
+\end{align}
+El caso canónico, y el que se valora en este trabajo, es la \emph{call}
+de precio de ejercicio fijo (\emph{fixed-strike call}), que paga
+$(A_T - K)^+$ o $(G_T - K)^+$ según el promedio; la \emph{put} y las
+variantes de precio de ejercicio flotante, que comparan $S_T$ con el
+promedio, se tratan del mismo modo. En la práctica el promedio se toma
+sobre un número finito de fechas; aquí se usa siempre la
+monitorización continua, que es su límite.
+
+\medskip
+
+\noindent\textbf{Linealidad en el log-precio.}
+La observación que estructura los Caps.~\ref{cap:fuente_pared}
+y~\ref{cap:espectro}\enprep{} aparece al pasar al log-precio $X_t = \log S_t$.
+El logaritmo del promedio geométrico es lineal en la trayectoria; el
+del aritmético, no:
+\begin{align}
+  \log G_T &\;=\; \frac{1}{T}\int_0^T X_t\, dt,
+  \label{eq:log_geom_lineal}\\
+  \log A_T &\;=\; \log\!\left(\frac{1}{T}\int_0^T e^{X_t}\, dt\right).
+  \label{eq:log_arit_no_lineal}
+\end{align}
+En el modelo de Black--Scholes, $X_t$ es un proceso gaussiano. Una combinación lineal de variables
+gaussianas es gaussiana, así que $G_T$ es lognormal y su opción admite
+un tratamiento elemental; $A_T$, integral de exponenciales de un
+proceso gaussiano, no es lognormal ni tiene una densidad cerrada
+elemental, y es esta no linealidad la que hace el caso aritmético
+fundamentalmente más difícil. Por la desigualdad entre las medias
+aritmética y geométrica, consecuencia de la convexidad de la
+exponencial, $G_T \leq A_T$ en cada trayectoria; para volatilidades y
+plazos realistas la diferencia es apreciable, y el caso aritmético no
+se reduce al geométrico.
+
+\subsection{Opciones barrera}
+\label{subsec:barrera_unica_payoff}\label{sec:barrera_definicion}
+\label{subsec:doble_barrera_otros_tipos}
+
+Una opción barrera paga como una europea, pero solo si el subyacente ha
+cruzado, o no, un nivel $B$ fijado en el contrato. La opción se
+desactiva (\emph{knock-out}) o se activa (\emph{knock-in}) al tocar la
+barrera, que puede estar por debajo (\emph{down}) o por encima
+(\emph{up}) del precio inicial. El caso canónico es la
+\emph{down-and-out call}, con $B < S_0$:
+\begin{equation}\label{eq:payoff_DO_call}
+  C_{DO}(T) \;=\; (S_T - K)^+ \cdot
+  \1\!\left\{\min_{0 \leq t \leq T} S_t > B\right\}.
+\end{equation}
+El indicador anula el pago si el subyacente tocó $B$ en algún instante,
+sea cual sea $S_T$: la trayectoria entra a través de su mínimo. Como
+toda trayectoria toca la barrera o no la toca,
+$\1\{\min_t S_t > B\} + \1\{\min_t S_t \leq B\} = 1$, y los pagos de
+la \emph{down-and-out} y la \emph{down-and-in} con la misma barrera
+suman el de la europea. Lo mismo ocurre con sus precios, porque un
+precio que no fuera aditivo permitiría una ganancia sin riesgo
+(\emph{paridad in--out}):
+\begin{equation}\label{eq:paridad_in_out}
+  C_{DO}(t, S) + C_{DI}(t, S) \;=\; C_{\text{vanilla}}(t, S).
+\end{equation}
+Basta, pues, valorar las opciones \emph{out}; la europea se obtiene en
+el Cap.~\ref{cap:bs_operadores}\enprep. En la opción de \emph{doble barrera}
+se fijan dos niveles $B_d < B_u$, y el pago se cobra solo si el
+subyacente permanece en $(B_d, B_u)$ durante toda la vida del contrato:
+la \emph{double knock-out call} paga
+$(S_T - K)^+\, \1\{B_d < \min_t S_t,\ \max_t S_t < B_u\}$. En todo el trabajo la barrera tiene nivel constante, se monitoriza de
+forma continua y no paga compensación (\emph{rebate}) al desactivarse.
+
+\section{No arbitraje y replicación en un modelo de un periodo}\label{sec:no_arbitraje}
+
+El principio que fija los precios es el de \emph{no arbitraje}: no
+existe ninguna cartera que cueste cero o menos hoy, no pierda en ningún
+escenario y gane en alguno con probabilidad positiva. Es una condición
+de equilibrio: si tal cartera existiera, todos la explotarían y los
+precios se ajustarían hasta eliminarla. Veamos su efecto en el modelo
+más simple posible \cite[sec.~2.2]{tfgm}.
+
+\medskip
+
+\noindent\textbf{El modelo.}
+Hay un único periodo, de duración $\Delta t$. El subyacente pasa de
+$S_0$ a $S_0 u$ con probabilidad $p$ o a $S_0 d$ con probabilidad
+$1 - p$, con $0 < d < u$, y la cuenta bancaria multiplica su saldo por
+$e^{r\Delta t}$. El no arbitraje exige
+\begin{equation}\label{eq:no_arbitraje_un_periodo}
+  d \;<\; e^{r\Delta t} \;<\; u .
+\end{equation}
+Si $e^{r\Delta t} \geq u$, vender el activo en corto (venderlo prestado
+y devolverlo al final) y depositar lo obtenido nunca pierde y gana si el
+activo baja; si $e^{r\Delta t} \leq d$, pedir prestado para comprar el
+activo nunca pierde y gana si sube.
+
+\medskip
+
+\noindent\textbf{La réplica.}
+Una opción que vence al final del periodo paga $V_u$ si el activo sube
+y $V_d$ si baja; para la \emph{call}, $V_u = (S_0 u - K)^+$ y
+$V_d = (S_0 d - K)^+$. Formamos una cartera con $\Delta$ unidades del
+subyacente y $\vartheta$ euros en la cuenta, y exigimos que pague lo mismo
+que la opción en los dos estados:
+$\Delta\, S_0 u + \vartheta\, e^{r\Delta t} = V_u$ y
+$\Delta\, S_0 d + \vartheta\, e^{r\Delta t} = V_d$. Este sistema lineal
+tiene solución única,
+\begin{equation}\label{eq:delta_un_periodo}
+  \Delta \;=\; \frac{V_u - V_d}{S_0 u - S_0 d},
+  \qquad
+  \vartheta \;=\; e^{-r\Delta t}\,\frac{u V_d - d V_u}{u - d}.
+\end{equation}
+La cartera cuesta hoy $\Delta S_0 + \vartheta$. Si la opción se negociara a
+otro precio, comprar la más barata de las dos y vender la más cara daría
+una ganancia segura sin inversión, así que el no arbitraje fija
+\begin{equation}\label{eq:precio_un_periodo}
+  V_0 \;=\; \Delta S_0 + \vartheta
+  \;=\; e^{-r\Delta t}\bigl[\,q\, V_u + (1 - q)\, V_d\,\bigr],
+  \qquad
+  q \;\eqdef\; \frac{e^{r\Delta t} - d}{u - d}.
+\end{equation}
+
+\noindent\textbf{Lectura.}
+La probabilidad $p$ no aparece en \eqref{eq:precio_un_periodo}. La razón
+es geométrica: con dos estados posibles, los pagos al final del periodo
+forman un espacio vectorial de dimensión dos, y el subyacente y la
+cuenta, con pagos $(S_0 u, S_0 d)$ y $(e^{r\Delta t}, e^{r\Delta t})$
+linealmente independientes, son una base. Cualquier opción es un vector
+de ese espacio, y su precio queda fijado por linealidad al descomponerla
+en la base, sin que intervenga lo probable que sea cada estado. En
+particular, el precio no depende de cuánto se espera que crezca el
+subyacente: en el modelo continuo, no dependerá de su rendimiento
+esperado $\mu$. Además, $\Delta$ en \eqref{eq:delta_un_periodo} es un
+cociente incremental, $\Delta V / \Delta S$, versión discreta de la
+cobertura $\Delta = \partial_S V$.
+Con tres estados la réplica deja de ser posible en general (mercado
+\emph{incompleto}, \cite[sec.~2.2.5]{tfgm}); el modelo de
+Black--Scholes, límite $\Delta t \to 0$ de un modelo de muchos periodos
+\cite[secs.~2.3--2.4]{tfgm}, es completo.
+
+\seccionesprevistas{2.3--2.6}

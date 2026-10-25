@@ -64,15 +64,13 @@
 \newcommand{\Dpath}{\mathcal{D}}
 
 % Borrador en curso: remisiones y capítulos aún no publicados.
-\newcommand{\enprep}{, en preparación}
-\newif\ifprimerprevisto \primerprevistotrue
-\newcommand{\capituloprevisto}[2]{%
-  \ifprimerprevisto\clearpage\global\primerprevistofalse\else\par\vspace{2.5em}\fi
-  \begingroup\let\clearpage\relax\let\cleardoublepage\relax
-  \chapter{#1}\label{#2}\endgroup
-  \noindent\textit{Capítulo en preparación.}\par}
-\newcommand{\seccionesprevistas}[1]{%
-  \par\medskip\noindent\textit{Secciones #1: en preparación.}\par}
+% Marcas internas del borrador: no imprimen nada. \enprep señala una remisión
+% a un capítulo aún no publicado; \capituloprevisto numera y etiqueta un
+% capítulo no publicado sin mostrarlo; \seccionesprevistas marca el final
+% de lo publicado de un capítulo.
+\newcommand{\enprep}{}
+\newcommand{\capituloprevisto}[2]{\refstepcounter{chapter}\label{#2}}
+\newcommand{\seccionesprevistas}[1]{}
 
 \usepackage{titlesec}
 \titleformat{\chapter}[hang]{\normalfont\huge\bfseries}{\thechapter.}{0.6em}{}

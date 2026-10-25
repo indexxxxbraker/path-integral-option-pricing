@@ -64,15 +64,13 @@
 \newcommand{\Dpath}{\mathcal{D}}
 
 % Draft in progress: references to and chapters not yet published.
-\newcommand{\enprep}{, in preparation}
-\newif\ifprimerprevisto \primerprevistotrue
-\newcommand{\capituloprevisto}[2]{%
-  \ifprimerprevisto\clearpage\global\primerprevistofalse\else\par\vspace{2.5em}\fi
-  \begingroup\let\clearpage\relax\let\cleardoublepage\relax
-  \chapter{#1}\label{#2}\endgroup
-  \noindent\textit{Chapter in preparation.}\par}
-\newcommand{\seccionesprevistas}[1]{%
-  \par\medskip\noindent\textit{Sections #1: in preparation.}\par}
+% Draft markers, which print nothing: \enprep flags a reference to a chapter
+% not yet released; \capituloprevisto numbers and labels an unreleased
+% chapter without showing it; \seccionesprevistas marks where the released
+% part of a chapter ends.
+\newcommand{\enprep}{}
+\newcommand{\capituloprevisto}[2]{\refstepcounter{chapter}\label{#2}}
+\newcommand{\seccionesprevistas}[1]{}
 
 \usepackage{titlesec}
 \titleformat{\chapter}[hang]{\normalfont\huge\bfseries}{\thechapter.}{0.6em}{}

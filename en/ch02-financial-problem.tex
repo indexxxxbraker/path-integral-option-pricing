@@ -1,1 +1,212 @@
-\capituloprevisto{The financial problem}{cap:problema_financiero}
+\chapter{The financial problem}\label{cap:problema_financiero}
+
+This chapter sets out, in the language of physics and without assuming
+stochastic calculus, the problem this work solves: which contracts are
+priced, why their price is determined, and why path-dependent options
+call for a different method. For the proofs we refer to
+\cite{tfgm, shreve, hull}.
+
+\section{Contracts and payoffs}\label{sec:contratos}
+
+\subsection{European options}\label{subsec:europeas}
+
+We consider a market with two assets. The first is a risky
+asset---a stock, for example---whose price $S_t$ fluctuates
+randomly; in the following chapters it will play the role of the
+coordinate of a particle. The second is a riskless bank account, whose
+balance grows deterministically, $B_t = B_0\, e^{rt}$, with a constant
+interest rate $r$. One euro received at $T$ is therefore worth
+$e^{-r\tau}$ euros at time $t$, with $\tau = T - t$: the discount factor
+converts amounts from one date to another, like a change of units, and
+it only makes sense to compare prices referred to the same date.
+
+A \emph{derivative} is a contract whose payoff depends on the price of
+another asset, called the \emph{underlying}. The simplest is the
+\emph{European call option} with exercise price (\emph{strike}) $K$ and
+maturity $T$: it gives its holder the right, but not the obligation, to
+buy one unit of the underlying at time $T$ at the price $K$. If
+$S_T > K$, the holder exercises and gains $S_T - K$; if $S_T \leq K$,
+the holder does not exercise and gains nothing. The \emph{payoff} at
+$T$ is
+\begin{equation}\label{eq:pago_call}
+  g(S_T) \;=\; (S_T - K)^+ \;\eqdef\; \max(S_T - K,\, 0).
+\end{equation}
+The European put option pays $(K - S_T)^+$, and in general we call
+European any option that pays a function $g(S_T)$ of the price at
+maturity. Its structural feature is that the payoff depends only on the
+final state: in the language of physics, $g$ is an observable measured
+at $t = T$ on the position $S_T$, and the history that led there is
+irrelevant. To price it, it suffices to know the law of a single random
+variable, $S_T$.
+
+The problem is to determine how much the right to receive $g(S_T)$ at
+$T$ is worth today, at $t < T$. It is worth explaining in advance why a
+model of the underlying is needed. If the payoff were linear, $S_T - K$
+(a \emph{forward} contract), its price would be fixed without any
+assumption on the dynamics of $S$: buying one unit of the underlying
+today and borrowing $K e^{-r\tau}$ reproduces that payoff in every
+scenario, so the contract is worth $S_t - K e^{-r\tau}$. The call, by
+contrast, has a kink at $S_T = K$: it is convex, and its value depends
+on the whole distribution of $S_T$ and not only on its mean. That is why
+the volatility of the underlying enters, and why a model is needed.
+
+The options studied in this work, in contrast, pay a \emph{path
+functional}: the payoff at $T$ is $\Phi[S(\cdot)]$, with
+$S(\cdot) = \{S_t\}_{0 \leq t \leq T}$, and the European option is the
+particular case $\Phi[S(\cdot)] = g(S_T)$. The two families in this work
+are Asian options, which depend on an integral along the path, and
+barrier options, which depend on its extreme values.
+
+\subsection{Asian options}
+\label{subsec:asian_concepto}\label{sec:asian_definicion}
+\label{subsec:asian_promedios}
+
+An Asian option is a derivative whose payoff depends on the
+\emph{average} value of the underlying over a monitoring period, instead
+of its terminal value: the average is harder to manipulate than a single
+observation and, since it has less variance, the option is cheaper than
+the equivalent European one. Over the period $[0, T]$, the two canonical
+averages are the arithmetic and the geometric one:
+\begin{align}
+  A_T &\;\eqdef\; \frac{1}{T}\int_0^T S_t\, dt,
+  \label{eq:promedio_aritmetico}\\
+  G_T &\;\eqdef\; \exp\!\left(\frac{1}{T}\int_0^T \log S_t\, dt\right).
+  \label{eq:promedio_geometrico}
+\end{align}
+The canonical case, and the one priced in this work, is the
+\emph{fixed-strike call}, which pays $(A_T - K)^+$ or $(G_T - K)^+$
+depending on the average; the put and the floating-strike variants,
+which compare $S_T$ with the average, are treated in the same way. In
+practice the average is taken over a finite number of dates; here
+continuous monitoring, which is its limit, is always used.
+
+\medskip
+
+\noindent\textbf{Linearity in the log-price.}
+The observation that structures Chapters~\ref{cap:fuente_pared}
+and~\ref{cap:espectro}\enprep{} appears on passing to the log-price $X_t = \log S_t$.
+The logarithm of the geometric average is linear in the path; that of
+the arithmetic average is not:
+\begin{align}
+  \log G_T &\;=\; \frac{1}{T}\int_0^T X_t\, dt,
+  \label{eq:log_geom_lineal}\\
+  \log A_T &\;=\; \log\!\left(\frac{1}{T}\int_0^T e^{X_t}\, dt\right).
+  \label{eq:log_arit_no_lineal}
+\end{align}
+In the Black--Scholes model, $X_t$ is a Gaussian process. A linear
+combination of Gaussian variables is Gaussian, so $G_T$ is lognormal and
+its option admits an elementary treatment; $A_T$, an integral of
+exponentials of a Gaussian process, is not lognormal and has no
+elementary closed-form density, and it is this nonlinearity that makes
+the arithmetic case fundamentally harder. By the inequality between the
+arithmetic and geometric means, a consequence of the convexity of the
+exponential, $G_T \leq A_T$ on every path; for realistic volatilities
+and maturities the difference is appreciable, and the arithmetic case
+does not reduce to the geometric one.
+
+\subsection{Barrier options}
+\label{subsec:barrera_unica_payoff}\label{sec:barrera_definicion}
+\label{subsec:doble_barrera_otros_tipos}
+
+A barrier option pays like a European one, but only if the underlying
+has, or has not, crossed a level $B$ fixed in the contract. The option
+is deactivated (\emph{knock-out}) or activated (\emph{knock-in}) on
+touching the barrier, which can lie below (\emph{down}) or above
+(\emph{up}) the initial price. The canonical case is the
+\emph{down-and-out call}, with $B < S_0$:
+\begin{equation}\label{eq:payoff_DO_call}
+  C_{DO}(T) \;=\; (S_T - K)^+ \cdot
+  \1\!\left\{\min_{0 \leq t \leq T} S_t > B\right\}.
+\end{equation}
+The indicator cancels the payoff if the underlying touched $B$ at some
+instant, whatever $S_T$ is: the path enters through its minimum. Since
+every path either touches the barrier or does not,
+$\1\{\min_t S_t > B\} + \1\{\min_t S_t \leq B\} = 1$, and the payoffs of
+the \emph{down-and-out} and the \emph{down-and-in} with the same barrier
+add up to that of the European option. The same holds for their prices,
+because non-additive prices would allow a riskless profit
+(\emph{in--out parity}):
+\begin{equation}\label{eq:paridad_in_out}
+  C_{DO}(t, S) + C_{DI}(t, S) \;=\; C_{\text{vanilla}}(t, S).
+\end{equation}
+It is therefore enough to price the \emph{out} options; the European one
+is obtained in Chapter~\ref{cap:bs_operadores}\enprep. In the
+\emph{double barrier} option two levels $B_d < B_u$ are fixed, and the
+payoff is received only if the underlying stays in $(B_d, B_u)$
+throughout the life of the contract: the \emph{double knock-out call}
+pays $(S_T - K)^+\, \1\{B_d < \min_t S_t,\ \max_t S_t < B_u\}$.
+Throughout this work the barrier has a constant level, is monitored
+continuously, and no compensation (\emph{rebate}) is paid when the
+option is knocked out.
+
+\section{No arbitrage and replication in a one-period model}\label{sec:no_arbitraje}
+
+The principle that fixes prices is that of \emph{no arbitrage}: there
+is no portfolio that costs zero or less today, loses in no scenario and
+gains in some scenario with positive probability. It is an equilibrium
+condition: if such a portfolio existed, everyone would exploit it and
+prices would adjust until it disappeared. Let us see its effect in the
+simplest possible model \cite[Section~2.2]{tfgm}.
+
+\medskip
+
+\noindent\textbf{The model.}
+There is a single period, of length $\Delta t$. The underlying moves
+from $S_0$ to $S_0 u$ with probability $p$ or to $S_0 d$ with
+probability $1 - p$, with $0 < d < u$, and the bank account multiplies
+its balance by $e^{r\Delta t}$. No arbitrage requires
+\begin{equation}\label{eq:no_arbitraje_un_periodo}
+  d \;<\; e^{r\Delta t} \;<\; u .
+\end{equation}
+If $e^{r\Delta t} \geq u$, selling the asset short (borrowing it,
+selling it, and returning it at the end) and depositing the proceeds never loses
+and gains if the asset falls; if $e^{r\Delta t} \leq d$, borrowing to
+buy the asset never loses and gains if it rises.
+
+\medskip
+
+\noindent\textbf{Replication.}
+An option that expires at the end of the period pays $V_u$ if the asset
+rises and $V_d$ if it falls; for the call, $V_u = (S_0 u - K)^+$ and
+$V_d = (S_0 d - K)^+$. We form a portfolio with $\Delta$ units of the
+underlying and $\vartheta$ euros in the account, and require it to pay
+the same as the option in both states:
+$\Delta\, S_0 u + \vartheta\, e^{r\Delta t} = V_u$ and
+$\Delta\, S_0 d + \vartheta\, e^{r\Delta t} = V_d$. This linear system
+has a unique solution,
+\begin{equation}\label{eq:delta_un_periodo}
+  \Delta \;=\; \frac{V_u - V_d}{S_0 u - S_0 d},
+  \qquad
+  \vartheta \;=\; e^{-r\Delta t}\,\frac{u V_d - d V_u}{u - d}.
+\end{equation}
+The portfolio costs $\Delta S_0 + \vartheta$ today. If the option traded
+at a different price, buying the cheaper of the two and selling the
+more expensive one would yield a riskless profit with no initial
+investment, so no arbitrage fixes
+\begin{equation}\label{eq:precio_un_periodo}
+  V_0 \;=\; \Delta S_0 + \vartheta
+  \;=\; e^{-r\Delta t}\bigl[\,q\, V_u + (1 - q)\, V_d\,\bigr],
+  \qquad
+  q \;\eqdef\; \frac{e^{r\Delta t} - d}{u - d}.
+\end{equation}
+
+\noindent\textbf{Interpretation.}
+The probability $p$ does not appear in \eqref{eq:precio_un_periodo}.
+The reason is geometric: with two possible states, the payoffs at the
+end of the period form a two-dimensional vector space, and the
+underlying and the account, with linearly independent payoffs
+$(S_0 u, S_0 d)$ and $(e^{r\Delta t}, e^{r\Delta t})$, are a basis. Any
+option is a vector in that space, and its price is fixed by linearity
+when it is decomposed in the basis, without the likelihood of each
+state playing any role. In particular, the price does not depend on how
+much the underlying is expected to grow: in the continuous model, it
+will not depend on its expected return $\mu$. Moreover, $\Delta$ in
+\eqref{eq:delta_un_periodo} is a difference quotient,
+$\Delta V / \Delta S$, the discrete version of the hedge
+ratio $\Delta = \partial_S V$. With three states replication is no longer
+possible in general (an \emph{incomplete} market,
+\cite[Section~2.2.5]{tfgm}); the Black--Scholes model, the
+$\Delta t \to 0$ limit of a model with many periods
+\cite[Sections~2.3--2.4]{tfgm}, is complete.
+
+\seccionesprevistas{2.3--2.6}
