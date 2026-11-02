@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pathint"
+version = "0.1.0"
+description = "Numerical checks for my physics bachelor's thesis on path integrals and option pricing"
+authors = [{ name = "Roberto Cepeda Rocandio" }]
+requires-python = ">=3.10"
+dependencies = ["numpy", "scipy"]
+
+[project.optional-dependencies]
+test = ["pytest"]
+
+[tool.setuptools]
+packages = ["pathint"]

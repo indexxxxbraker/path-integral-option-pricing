@@ -49,7 +49,8 @@ prestados $K e^{-r\tau}$ reproduce ese pago en cualquier escenario, así
 que el contrato vale $S_t - K e^{-r\tau}$. La \emph{call}, en cambio,
 tiene un codo en $S_T = K$: es convexa, y su valor depende de toda la
 distribución de $S_T$ y no solo de su media. Por eso entra la
-volatilidad del subyacente y por eso hace falta un modelo.
+volatilidad del subyacente y por eso hace falta un modelo
+(sec.~\ref{sec:modelo_bs}).
 
 Las opciones que estudia este trabajo pagan, en cambio, una
 \emph{funcional de la trayectoria}: el pago en $T$ es
@@ -96,7 +97,8 @@ del aritmético, no:
   \log A_T &\;=\; \log\!\left(\frac{1}{T}\int_0^T e^{X_t}\, dt\right).
   \label{eq:log_arit_no_lineal}
 \end{align}
-En el modelo de Black--Scholes, $X_t$ es un proceso gaussiano. Una combinación lineal de variables
+En el modelo de Black--Scholes, $X_t$ es un proceso gaussiano
+(sec.~\ref{sec:modelo_bs}). Una combinación lineal de variables
 gaussianas es gaussiana, así que $G_T$ es lognormal y su opción admite
 un tratamiento elemental; $A_T$, integral de exponenciales de un
 proceso gaussiano, no es lognormal ni tiene una densidad cerrada
@@ -208,4 +210,141 @@ Con tres estados la réplica deja de ser posible en general (mercado
 Black--Scholes, límite $\Delta t \to 0$ de un modelo de muchos periodos
 \cite[secs.~2.3--2.4]{tfgm}, es completo.
 
-\seccionesprevistas{2.3--2.6}
+\section{La probabilidad neutral al riesgo}\label{sec:neutral_riesgo}
+
+La condición \eqref{eq:no_arbitraje_un_periodo} equivale a $0 < q < 1$,
+así que $q$ puede leerse como una probabilidad. Llamamos $\Q$ a la que
+asigna probabilidad $q$ a la subida y $1 - q$ a la bajada. Con ella,
+\eqref{eq:precio_un_periodo} dice que el precio de la opción es su pago
+descontado promediado con $\Q$,
+\begin{equation}\label{eq:precio_q_un_periodo}
+  V_0 \;=\; e^{-r\Delta t}\, \E_\Q[V_1],
+\end{equation}
+y un cálculo directo muestra qué caracteriza a $\Q$:
+\begin{equation}\label{eq:q_crecimiento_r}
+  \E_\Q[S_1] \;=\; q\, S_0 u + (1 - q)\, S_0 d \;=\; S_0\, e^{r\Delta t}.
+\end{equation}
+Bajo $\Q$ el activo con riesgo crece en media al tipo sin riesgo, como
+la cuenta bancaria: de ahí el nombre de probabilidad \emph{neutral al
+riesgo}. Dicho de otro modo, el precio descontado $e^{-rt}S_t$ tiene al
+final del periodo la misma esperanza que al principio. Un proceso cuyo
+valor esperado futuro, condicionado a la información presente, coincide
+con su valor presente es una \emph{martingala}: un juego justo, sin
+deriva que explotar. Por \eqref{eq:precio_q_un_periodo}, también el
+precio descontado de la opción es una martingala bajo $\Q$.
+
+Dos precisiones evitan malentendidos. La primera: $\Q$ no es una
+predicción de lo que hará el mercado. Las probabilidades reales están
+en $p$, que no interviene; $\Q$ son los únicos pesos con los que
+promediar los pagos es compatible con el no arbitraje, y usarlos es un
+recurso de cálculo. La segunda: $\Q$ y la probabilidad real $\PP$
+asignan probabilidad cero a los mismos sucesos (aquí a ninguno, porque
+$0 < p, q < 1$). Cambian los pesos de los escenarios, no cuáles son
+posibles; en esto consiste que sean \emph{equivalentes}.
+
+El resultado se generaliza en el \emph{teorema fundamental de la
+valoración} \cite[sec.~5.4]{shreve}: un mercado no admite arbitraje si
+y solo si existe una probabilidad $\Q$ equivalente a $\PP$ bajo la cual
+los precios descontados de todos los activos son martingalas, y esa
+$\Q$ es única si y solo si el mercado es completo. El precio de un
+derivado replicable es entonces su pago descontado promediado con $\Q$;
+en el modelo binomial, la construcción explícita está en
+\cite[secs.~2.2--2.3]{tfgm}.
+
+\section{El modelo de Black--Scholes}\label{sec:modelo_bs}
+
+El modelo de Black--Scholes describe el subyacente con las hipótesis más
+simples compatibles con un precio positivo y aleatorio: volatilidad
+$\sigma$ y tipo $r$ constantes, trayectorias sin saltos y negociación
+continua y sin costes. Su ingrediente es el movimiento browniano, del
+que aquí basta lo mínimo; su física (el paseo aleatorio, la ecuación del
+calor y la ecuación de Langevin) se desarrolla en el
+Cap.~\ref{cap:fundamentos}\enprep.
+
+\medskip
+
+\noindent\textbf{El browniano y la regla $dW^2 = dt$.}
+El movimiento browniano $W_t$ empieza en $W_0 = 0$, tiene trayectorias
+continuas e incrementos independientes en intervalos disjuntos, con
+\begin{equation}\label{eq:incremento_browniano}
+  W_{t + \Delta t} - W_t \;\sim\; N(0, \Delta t).
+\end{equation}
+Un incremento típico mide $\sqrt{\Delta t}$, mucho más que $\Delta t$
+cuando $\Delta t$ es pequeño: las trayectorias son continuas pero no
+derivables en ningún punto, y los desarrollos de Taylor deben llevarse a
+segundo orden en $\Delta W$. Ese término de segundo orden se comporta de
+forma notable. Cada $(\Delta W)^2$ tiene media $\Delta t$ y varianza
+$2\Delta t^2$; sumados sobre los $t/\Delta t$ pasos de $[0, t]$, dan una
+variable de media $t$ y varianza $2t\,\Delta t$, que tiende a cero. En
+el límite, la suma de los cuadrados de los incrementos deja de ser
+aleatoria y vale $t$ en cada trayectoria (es la \emph{variación
+cuadrática}, \cite[sec.~3.2.3]{tfgm}). En un desarrollo infinitesimal
+esto se resume en la regla
+\begin{equation}\label{eq:regla_dW2}
+  (dW)^2 = dt, \qquad dW\, dt = 0, \qquad (dt)^2 = 0,
+\end{equation}
+donde las dos últimas significan que esos términos son de orden
+superior a $dt$. Es la única regla nueva que necesita este capítulo.
+
+\medskip
+
+\noindent\textbf{El modelo.}
+El precio del subyacente sigue la ecuación
+\begin{equation}\label{eq:bs_eds_P}
+  dS_t \;=\; \mu\, S_t\, dt + \sigma\, S_t\, dW_t,
+\end{equation}
+límite de $S_{t+\Delta t} = S_t\,(1 + \mu\,\Delta t + \sigma\,\Delta W)$:
+el rendimiento relativo $dS/S$ tiene una deriva $\mu$ y un ruido de
+amplitud $\sigma$, la \emph{volatilidad}. Para el log-precio
+$X_t = \log S_t$, el desarrollo de Taylor a segundo orden, con
+$(dS/S)^2 = \sigma^2\,dt$ por \eqref{eq:regla_dW2}, da
+\begin{equation}\label{eq:logprecio_P}
+  dX_t \;=\; \frac{dS_t}{S_t} - \frac{1}{2}\left(\frac{dS_t}{S_t}\right)^{\!2}
+  \;=\; \Bigl(\mu - \frac{\sigma^2}{2}\Bigr)\, dt + \sigma\, dW_t .
+\end{equation}
+Es la ecuación de Langevin de una partícula browniana sometida a una
+fuerza constante, con deriva $\mu - \sigma^2/2$ y coeficiente de difusión
+$\sigma^2/2$. Sus coeficientes son constantes, así que
+$X_t = X_0 + (\mu - \sigma^2/2)\,t + \sigma W_t$ es gaussiano y $S_t$ es
+lognormal. El término $-\sigma^2/2$ procede de la concavidad del
+logaritmo: subir un 10\% y bajar después un 10\% deja el precio
+en $0{,}99$ veces el inicial. La volatilidad frena así el crecimiento
+típico de una trayectoria, medido por la mediana
+$S_0\,e^{(\mu - \sigma^2/2)t}$, aunque la media siga siendo
+$S_0\,e^{\mu t}$. El mismo desarrollo, aplicado a una función
+$f(t, S)$, da la \emph{regla de Itô} \cite[sec.~4.3]{tfgm}:
+\begin{equation}\label{eq:regla_ito}
+  df \;=\; \Bigl(\partial_t f + \mu S\, \partial_S f
+  + \frac{1}{2}\sigma^2 S^2\, \partial_S^2 f\Bigr)\, dt
+  + \sigma S\, \partial_S f\, dW_t ,
+\end{equation}
+cuyo único rasgo no clásico es el término en $\partial_S^2 f$, procedente
+de $(dS)^2 = \sigma^2 S^2\,dt$.
+
+\medskip
+
+\noindent\textbf{Bajo $\Q$.}
+El teorema de Girsanov \cite[sec.~4.4]{tfgm} construye la probabilidad
+neutral al riesgo del modelo continuo: bajo $\Q$, el proceso
+$\widetilde W_t = W_t + \frac{\mu - r}{\sigma}\,t$ es un browniano, y
+\begin{equation}\label{eq:bs_eds_Q}
+  dS_t \;=\; r\, S_t\, dt + \sigma\, S_t\, d\widetilde W_t,
+  \qquad
+  dX_t \;=\; \Bigl(r - \frac{\sigma^2}{2}\Bigr)\, dt
+  + \sigma\, d\widetilde W_t,
+\end{equation}
+cuya segunda ecuación es el punto de partida del
+Cap.~\ref{cap:bs_operadores}\enprep. Como en \eqref{eq:q_crecimiento_r}, el
+subyacente crece en media al tipo $r$. La deriva cambia, pero la
+volatilidad no puede hacerlo, por la razón que da la regla
+\eqref{eq:regla_dW2}: la suma de los cuadrados de los incrementos de $X$
+en $[0, t]$ vale $\sigma^2 t$ con probabilidad uno, y dos probabilidades
+equivalentes coinciden en los sucesos de probabilidad uno. La
+volatilidad se lee en una sola trayectoria; la deriva no puede
+determinarse a partir de una trayectoria de duración finita, y por eso
+es lo único que el cambio de probabilidad modifica. En el
+Cap.~\ref{cap:bs_operadores}\enprep, multiplicar por una exponencial del
+log-precio elimina la deriva del hamiltoniano: es una reponderación de
+trayectorias del mismo tipo, vista como transformación gauge.
+
+\seccionesprevistas{2.5--2.6}

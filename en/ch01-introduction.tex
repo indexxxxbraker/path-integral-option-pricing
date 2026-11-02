@@ -12,8 +12,8 @@ the Hamiltonian $\Hbs$ of a particle in one dimension
 (Chapter~\ref{cap:bs_operadores}\enprep). The price is then a matrix
 element of the Euclidean evolution operator $e^{-\tau\Hbs}$ integrated
 against the payoff, and the Feynman--Kac formula \cite{kac1949} writes
-it as a path integral \cite{feynman1948} over the trajectories of the
-log-price. The Wick rotation \cite{wick1954}, $t \to -i\tau$, which
+it as a path integral over the trajectories of the
+log-price. The Wick rotation, $t \to -i\tau$, which
 takes quantum mechanics to diffusion, does not have to be performed: the
 time to maturity is a Euclidean time from the outset
 (Chapter~\ref{cap:fundamentos}\enprep).
@@ -58,43 +58,35 @@ real time (Chapter~\ref{cap:numerica}\enprep).
 The application of methods from physics to markets has two strands.
 Statistical physics has mainly studied the empirical statistics of
 prices, with fat tails and correlations that the Black--Scholes model
-does not capture, and their consequences for risk and hedging
-\cite{bouchaud-potters}. The other strand keeps the model and changes
-the language. Linetsky \cite{linetsky1998} presented pricing as a path
-integral to a financial audience; Baaquie \cite{baaquie2004} developed
-it systematically with the Hamiltonians of quantum mechanics, and
-extended it to field theory for interest rates \cite{baaquie2018};
-Kleinert \cite{kleinert} devotes part of his treatise on path integrals
-to financial markets. This work belongs to the second strand.
+does not capture. The other strand keeps the model and changes the
+language. Linetsky \cite{linetsky1998} presented pricing as a path
+integral to a financial audience, and Baaquie \cite{baaquie2004}
+developed it systematically with the Hamiltonians of quantum mechanics.
+This work belongs to the second strand and takes Baaquie's book as its
+starting point.
 
 \medskip
 
 \noindent\textbf{Results by family.}
 All the prices that will be studied are known. The formula for the
-geometric Asian option is due to Kemna and Vorst \cite{kemna-vorst};
-that for the single barrier, to Merton \cite{merton1973}, and those for
-its eight variants, to Reiner and Rubinstein \cite{reiner-rubinstein};
-the image series for the double barrier, to Kunitomo and Ikeda
-\cite{kunitomo-ikeda}. The arithmetic Asian option is the hard case:
-Yor \cite{yor1992} obtained the law of the integral of the exponential
-of Brownian motion; Geman and Yor \cite{geman-yor}, the Laplace
-transform of the price by means of Bessel processes, and Linetsky
-\cite{linetsky2004}, its spectral expansion, which is the formulation
-closest to that of this work. On the numerical side, Glasserman
-\cite{glasserman} is the reference on Monte Carlo in finance, and
-Broadie, Glasserman and Kou \cite{broadie-glasserman-kou} quantified the
-effect of monitoring the barrier only at discrete dates.
+geometric Asian option is due to Kemna and Vorst \cite{kemna-vorst},
+and that for the single barrier, to Merton \cite{merton1973}. The
+arithmetic Asian option is the hard case: Geman and Yor
+\cite{geman-yor} obtained the Laplace transform of its price by means of
+Bessel processes, and Linetsky \cite{linetsky2004}, its spectral
+expansion, which is the formulation closest to that of this work. On the
+numerical side, the reference on Monte Carlo in finance is Glasserman
+\cite{glasserman}, and Broadie, Glasserman and Kou
+\cite{broadie-glasserman-kou} quantified the effect of monitoring the
+barrier only at discrete dates.
 
 \medskip
 
 \noindent\textbf{Mathematical background.}
-Stochastic calculus is covered in Karatzas and Shreve
-\cite{karatzas-shreve} and in Øksendal \cite{oksendal}, and its
-application to pricing in Shreve \cite{shreve}, Hull \cite{hull} and the
-author's bachelor's thesis in Mathematics \cite{tfgm}; the path integral,
-in Feynman and Hibbs \cite{feynman-hibbs}; spectral theory, in Reed and
-Simon \cite{reed-simon1, reed-simon2} and Simon \cite{simon-functional},
-and special functions, in Lebedev \cite{lebedev}.
+The no-arbitrage pricing and the stochastic calculus that are needed are
+covered in Shreve \cite{shreve}, Hull \cite{hull} and the author's bachelor's
+thesis in Mathematics \cite{tfgm}, and the path integral in Feynman and
+Hibbs \cite{feynman-hibbs}.
 
 \medskip
 

@@ -48,7 +48,8 @@ today and borrowing $K e^{-r\tau}$ reproduces that payoff in every
 scenario, so the contract is worth $S_t - K e^{-r\tau}$. The call, by
 contrast, has a kink at $S_T = K$: it is convex, and its value depends
 on the whole distribution of $S_T$ and not only on its mean. That is why
-the volatility of the underlying enters, and why a model is needed.
+the volatility of the underlying enters, and why a model is needed
+(Section~\ref{sec:modelo_bs}).
 
 The options studied in this work, in contrast, pay a \emph{path
 functional}: the payoff at $T$ is $\Phi[S(\cdot)]$, with
@@ -93,7 +94,8 @@ the arithmetic average is not:
   \log A_T &\;=\; \log\!\left(\frac{1}{T}\int_0^T e^{X_t}\, dt\right).
   \label{eq:log_arit_no_lineal}
 \end{align}
-In the Black--Scholes model, $X_t$ is a Gaussian process. A linear
+In the Black--Scholes model, $X_t$ is a Gaussian process
+(Section~\ref{sec:modelo_bs}). A linear
 combination of Gaussian variables is Gaussian, so $G_T$ is lognormal and
 its option admits an elementary treatment; $A_T$, an integral of
 exponentials of a Gaussian process, is not lognormal and has no
@@ -209,4 +211,143 @@ possible in general (an \emph{incomplete} market,
 $\Delta t \to 0$ limit of a model with many periods
 \cite[Sections~2.3--2.4]{tfgm}, is complete.
 
-\seccionesprevistas{2.3--2.6}
+\section{The risk-neutral probability}\label{sec:neutral_riesgo}
+
+Condition \eqref{eq:no_arbitraje_un_periodo} is equivalent to
+$0 < q < 1$, so $q$ can be read as a probability. We call $\Q$ the one
+that assigns probability $q$ to the up move and $1 - q$ to the down
+move. With it, \eqref{eq:precio_un_periodo} says that the price of the
+option is its discounted payoff averaged with $\Q$,
+\begin{equation}\label{eq:precio_q_un_periodo}
+  V_0 \;=\; e^{-r\Delta t}\, \E_\Q[V_1],
+\end{equation}
+and a direct calculation shows what characterizes $\Q$:
+\begin{equation}\label{eq:q_crecimiento_r}
+  \E_\Q[S_1] \;=\; q\, S_0 u + (1 - q)\, S_0 d \;=\; S_0\, e^{r\Delta t}.
+\end{equation}
+Under $\Q$ the risky asset grows on average at the risk-free rate, like
+the bank account: hence the name \emph{risk-neutral} probability. Put
+differently, the discounted price $e^{-rt}S_t$ has the same expectation
+at the end of the period as at the beginning. A process whose expected
+future value, conditional on the present information, equals its
+present value is a \emph{martingale}: a fair game, with no drift to
+exploit. By \eqref{eq:precio_q_un_periodo}, the discounted price of the
+option is also a martingale under $\Q$.
+
+Two remarks prevent misunderstandings. The first: $\Q$ is not a
+prediction of what the market will do. The real-world probabilities are in
+$p$, which plays no role; $\Q$ is the only set of weights with which
+averaging the payoffs is consistent with no arbitrage, and using these
+weights is a computational device. The second: $\Q$ and the real-world probability
+$\PP$ assign probability zero to the same events (here to none, because
+$0 < p, q < 1$). They change the weights of the scenarios, not which
+scenarios are possible; this is what it means for them to be
+\emph{equivalent}.
+
+The result generalizes to the \emph{fundamental theorem of asset
+pricing} \cite[Section~5.4]{shreve}: a market admits no arbitrage if
+and only if there is a probability $\Q$ equivalent to $\PP$ under which
+the discounted prices of all assets are martingales, and this $\Q$ is
+unique if and only if the market is complete. The price of a replicable
+derivative is then its discounted payoff averaged with $\Q$; for the
+binomial model, the explicit construction is in
+\cite[Sections~2.2--2.3]{tfgm}.
+
+\section{The Black--Scholes model}\label{sec:modelo_bs}
+
+The Black--Scholes model describes the underlying with the simplest
+assumptions compatible with a positive, random price: constant
+volatility $\sigma$ and rate $r$, paths without jumps, and continuous,
+costless trading. Its ingredient is Brownian motion, of which only the
+minimum is needed here; its physics (the random walk, the heat equation
+and the Langevin equation) is developed in
+Chapter~\ref{cap:fundamentos}\enprep.
+
+\medskip
+
+\noindent\textbf{Brownian motion and the rule $dW^2 = dt$.}
+Brownian motion $W_t$ starts at $W_0 = 0$ and has continuous paths and
+independent increments over disjoint intervals, with
+\begin{equation}\label{eq:incremento_browniano}
+  W_{t + \Delta t} - W_t \;\sim\; N(0, \Delta t).
+\end{equation}
+A typical increment is of size $\sqrt{\Delta t}$, much larger than
+$\Delta t$ when $\Delta t$ is small: the paths are continuous but
+nowhere differentiable, and Taylor expansions must be carried to second
+order in $\Delta W$. This second-order term behaves in a remarkable way.
+Each $(\Delta W)^2$ has mean $\Delta t$ and variance $2\Delta t^2$;
+summed over the $t/\Delta t$ steps of $[0, t]$, they give a variable
+with mean $t$ and variance $2t\,\Delta t$, which tends to zero. In the
+limit, the sum of the squared increments is no longer random and equals
+$t$ on every path (this is the \emph{quadratic variation},
+\cite[Section~3.2.3]{tfgm}). In an infinitesimal expansion this is
+summarized in the rule
+\begin{equation}\label{eq:regla_dW2}
+  (dW)^2 = dt, \qquad dW\, dt = 0, \qquad (dt)^2 = 0,
+\end{equation}
+where the last two mean that those terms are of higher order than $dt$.
+It is the only new rule this chapter needs.
+
+\medskip
+
+\noindent\textbf{The model.}
+The price of the underlying follows the equation
+\begin{equation}\label{eq:bs_eds_P}
+  dS_t \;=\; \mu\, S_t\, dt + \sigma\, S_t\, dW_t,
+\end{equation}
+the limit of $S_{t+\Delta t} = S_t\,(1 + \mu\,\Delta t + \sigma\,\Delta W)$:
+the relative return $dS/S$ has a drift $\mu$ and a noise of amplitude
+$\sigma$, the \emph{volatility}. For the log-price $X_t = \log S_t$, the
+second-order Taylor expansion, with $(dS/S)^2 = \sigma^2\,dt$ by
+\eqref{eq:regla_dW2}, gives
+\begin{equation}\label{eq:logprecio_P}
+  dX_t \;=\; \frac{dS_t}{S_t} - \frac{1}{2}\left(\frac{dS_t}{S_t}\right)^{\!2}
+  \;=\; \Bigl(\mu - \frac{\sigma^2}{2}\Bigr)\, dt + \sigma\, dW_t .
+\end{equation}
+This is the Langevin equation of a Brownian particle subject to a
+constant force, with drift $\mu - \sigma^2/2$ and diffusion coefficient
+$\sigma^2/2$. Its coefficients are constant, so
+$X_t = X_0 + (\mu - \sigma^2/2)\,t + \sigma W_t$ is Gaussian and $S_t$
+is lognormal. The term $-\sigma^2/2$ comes from the concavity of the
+logarithm: rising by 10\% and then falling by 10\% leaves the price at
+$0.99$ times its initial value. Volatility thus slows down the typical
+growth of a path, measured by the median $S_0\,e^{(\mu - \sigma^2/2)t}$,
+even though the mean is still $S_0\,e^{\mu t}$. The same expansion,
+applied to a function $f(t, S)$, gives \emph{Itô's rule}
+\cite[Section~4.3]{tfgm}:
+\begin{equation}\label{eq:regla_ito}
+  df \;=\; \Bigl(\partial_t f + \mu S\, \partial_S f
+  + \frac{1}{2}\sigma^2 S^2\, \partial_S^2 f\Bigr)\, dt
+  + \sigma S\, \partial_S f\, dW_t ,
+\end{equation}
+whose only non-classical feature is the term in $\partial_S^2 f$, which
+comes from $(dS)^2 = \sigma^2 S^2\,dt$.
+
+\medskip
+
+\noindent\textbf{Under $\Q$.}
+Girsanov's theorem \cite[Section~4.4]{tfgm} constructs the risk-neutral
+probability of the continuous model: under $\Q$, the process
+$\widetilde W_t = W_t + \frac{\mu - r}{\sigma}\,t$ is a Brownian motion,
+and
+\begin{equation}\label{eq:bs_eds_Q}
+  dS_t \;=\; r\, S_t\, dt + \sigma\, S_t\, d\widetilde W_t,
+  \qquad
+  dX_t \;=\; \Bigl(r - \frac{\sigma^2}{2}\Bigr)\, dt
+  + \sigma\, d\widetilde W_t,
+\end{equation}
+whose second equation is the starting point of
+Chapter~\ref{cap:bs_operadores}\enprep. As in \eqref{eq:q_crecimiento_r},
+the underlying grows on average at the rate $r$. The drift changes, but
+the volatility cannot, for the reason given by the rule
+\eqref{eq:regla_dW2}: the sum of the squared increments of $X$ over
+$[0, t]$ equals $\sigma^2 t$ with probability one, and two equivalent
+probabilities agree on the events of probability one. The volatility
+can be read off a single path; the drift cannot be determined from a
+path of finite length, and that is why it is the only thing the change
+of probability modifies. In Chapter~\ref{cap:bs_operadores}\enprep,
+multiplying by an exponential of the log-price removes the drift from
+the Hamiltonian: it is a reweighting of paths of the same kind, seen as
+a gauge transformation.
+
+\seccionesprevistas{2.5--2.6}

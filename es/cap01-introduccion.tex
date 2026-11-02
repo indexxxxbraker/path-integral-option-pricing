@@ -13,8 +13,8 @@ partícula en una dimensión (Cap.~\ref{cap:bs_operadores}\enprep). El
 precio es entonces un elemento de matriz del operador de evolución
 euclídea $e^{-\tau\Hbs}$ integrado contra el pago, y la fórmula de
 Feynman--Kac \cite{kac1949} lo escribe como una integral de camino
-\cite{feynman1948} sobre las trayectorias del log-precio. La rotación de
-Wick \cite{wick1954}, $t \to -i\tau$, que lleva de la mecánica cuántica
+sobre las trayectorias del log-precio. La rotación de
+Wick, $t \to -i\tau$, que lleva de la mecánica cuántica
 a la difusión, no hay que hacerla: el tiempo hasta el vencimiento es, de
 origen, un tiempo euclídeo (Cap.~\ref{cap:fundamentos}\enprep).
 
@@ -59,44 +59,34 @@ del tiempo real (Cap.~\ref{cap:numerica}\enprep).
 La aplicación de métodos de la física a los mercados tiene dos
 vertientes. La física estadística ha estudiado sobre todo la estadística
 empírica de los precios, con colas gruesas y correlaciones que el modelo
-de Black--Scholes no recoge, y sus consecuencias para el riesgo y la
-cobertura \cite{bouchaud-potters}. La otra conserva el modelo y cambia
-el lenguaje. Linetsky \cite{linetsky1998} presentó a una audiencia
-financiera la valoración como integral de camino; Baaquie
+de Black--Scholes no recoge. La otra conserva el modelo y cambia el
+lenguaje. Linetsky \cite{linetsky1998} presentó a una audiencia
+financiera la valoración como integral de camino, y Baaquie
 \cite{baaquie2004} la desarrolló de forma sistemática con los
-hamiltonianos de la mecánica cuántica, y la extendió a la teoría de
-campos para los tipos de interés \cite{baaquie2018}; Kleinert
-\cite{kleinert} dedica a los mercados financieros una parte de su
-tratado de integrales de camino. Este trabajo pertenece a la segunda
-vertiente.
+hamiltonianos de la mecánica cuántica. Este trabajo pertenece a la
+segunda vertiente y toma como punto de partida el libro de Baaquie.
 
 \medskip
 
 \noindent\textbf{Resultados por familia.}
 Todos los precios que se estudiarán son conocidos. La fórmula de la
-asiática geométrica es de Kemna y Vorst \cite{kemna-vorst}; la de la
-barrera única, de Merton \cite{merton1973}, y las de sus ocho variantes,
-de Reiner y Rubinstein \cite{reiner-rubinstein}; la serie de imágenes de
-la doble barrera, de Kunitomo e Ikeda \cite{kunitomo-ikeda}. La asiática
-aritmética es el caso difícil: Yor \cite{yor1992} obtuvo la ley de la
-integral de la exponencial del browniano; Geman y Yor \cite{geman-yor},
-la transformada de Laplace del precio mediante procesos de Bessel, y
-Linetsky \cite{linetsky2004}, su expansión espectral, que es la
-formulación más próxima a la de este trabajo. En la parte numérica,
-Glasserman \cite{glasserman} es la referencia de Monte Carlo en
-finanzas, y Broadie, Glasserman y Kou \cite{broadie-glasserman-kou}
-cuantificaron el efecto de vigilar la barrera solo en fechas discretas.
+asiática geométrica es de Kemna y Vorst \cite{kemna-vorst}, y la de la
+barrera única, de Merton \cite{merton1973}. La asiática aritmética es el
+caso difícil: Geman y Yor \cite{geman-yor} obtuvieron la transformada de
+Laplace de su precio mediante procesos de Bessel, y Linetsky
+\cite{linetsky2004}, su expansión espectral, que es la formulación más
+próxima a la de este trabajo. En la parte numérica, la referencia de
+Monte Carlo en finanzas es Glasserman \cite{glasserman}, y Broadie,
+Glasserman y Kou \cite{broadie-glasserman-kou} cuantificaron el efecto de
+vigilar la barrera solo en fechas discretas.
 
 \medskip
 
 \noindent\textbf{Base matemática.}
-El cálculo estocástico está en Karatzas y Shreve \cite{karatzas-shreve}
-y en Øksendal \cite{oksendal}, y su aplicación a la valoración, en
-Shreve \cite{shreve}, Hull \cite{hull} y el TFG de Matemáticas
-\cite{tfgm}; la integral de camino, en Feynman y Hibbs
-\cite{feynman-hibbs}; la teoría espectral, en Reed y Simon
-\cite{reed-simon1, reed-simon2} y Simon \cite{simon-functional}, y las
-funciones especiales, en Lebedev \cite{lebedev}.
+La valoración por arbitraje y el cálculo estocástico que se necesitan
+están en Shreve \cite{shreve}, Hull \cite{hull} y el TFG de Matemáticas
+\cite{tfgm}, y la integral de camino, en Feynman y Hibbs
+\cite{feynman-hibbs}.
 
 \medskip
 
