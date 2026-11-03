@@ -1,4 +1,4 @@
-# Euclidean quantum mechanics applied to the pricing of path-dependent options
+# Path integrals in the pricing of path-dependent options
 
 Bachelor's thesis in Physics (TFG), University of Oviedo, 2026–27.
 Roberto Cepeda Rocandio, fifth-year student in the double degree in Mathematics and Physics.
